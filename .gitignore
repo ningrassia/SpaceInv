@@ -16,3 +16,12 @@
 *.exe
 *.out
 *.app
+
+# Stuff from uVision
+*.d
+*.crf
+*.bak
+*.DEP
+*.IEX
+*.pll
+*.lst

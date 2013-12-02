@@ -128,7 +128,7 @@ void UART_Init(uint32_t baseAddress)
   myUart->LineControl = UART_LCRH_WLEN_8 | UART_LCRH_FEN;                  
   
   // Enable the UART - Need to enable both TX and RX
-  myUart->UARTControl =  UART_CTL_RXE | UART_CTL_TXE | UART_CTL_UARTEN;                 // 9
+  myUart->UARTControl =  UART_CTL_RXE | UART_CTL_TXE | UART_CTL_UARTEN;
   
   // Wait until the UART is avaiable
 	switch(baseAddress)
@@ -417,6 +417,4 @@ main(void)
 		
 	}
   
-
 }
-

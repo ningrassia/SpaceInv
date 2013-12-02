@@ -1,3 +1,6 @@
+# Linux stuff
+*~
+
 # Object files
 *.o
 *.ko
@@ -21,7 +24,15 @@
 *.d
 *.crf
 *.bak
-*.DEP
-*.IEX
+*.dep
+*.iex
 *.pll
 *.lst
+*.axf
+*.htm
+*.lnp
+*.map
+*.plg
+*.tra
+*.uvopt
+*.uvgui*

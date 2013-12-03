@@ -34,7 +34,10 @@ extern void initPortC(void);
 extern void EnableInterrupts(void);
 extern void DisableInterrupts(void);
 extern void initializeSysTick(uint32_t count, bool enableInterrupts);
+extern void initializeTimerA(uint32_t count, bool enableInterrupts);
+
 extern volatile bool SysTickAlert;
+extern volatile bool TimerAAlert;
 
 /******************************************************************************
  * Global Variables
@@ -262,7 +265,6 @@ void sw6func(void)
 {
 }
 
-
 // Handle pushbuttons and their debouncing
 // Check every 3 milliseconds, and if a button is low for 15 ms,
 // return a button pushed event or something!
@@ -458,9 +460,12 @@ main(void)
 								(PIN_2 | PIN_3),
 								0x0
 								);
+								
 	//Set up the SysTick Timer
 	initializeSysTick(800000, true);
+	
 	//Set up TimerA - for debounce!
+	initializeTimerA(2400000, true);
 	
 	//Set up both UARTs
 	UART_Init(UART2);

@@ -37,6 +37,4 @@ void initializeSysTick(uint32_t count, bool enableInterrupts)
 	// Or just turn on the SysTick.
 	else
 		NVIC_ST_CTRL_R = (NVIC_ST_CTRL_ENABLE | NVIC_ST_CTRL_CLK_SRC);
-	
-
 }

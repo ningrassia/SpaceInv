@@ -60,7 +60,8 @@ bool  gpioPortInit(
                     uint8_t inputMask, 
                     uint8_t pullUpMask,
 										uint8_t altFuncMask,
-										uint8_t analogFuncMask
+										uint8_t analogFuncMask,
+										uint8_t portControl
                   )
 {
 	GPIO_PORT * ourPort = (GPIO_PORT *)baseAddress;
@@ -94,7 +95,7 @@ bool  gpioPortInit(
 	ourPort->AlternateFunctionSelect = altFuncMask;
 	ourPort->DigitalEnable |= digitalEnableMask;
 	ourPort->AnalogSelectMode |= analogFuncMask;
-	
+	ourPort->PortControl |= portControl;
 	
   return true;
 }
@@ -149,6 +150,55 @@ void UART_Init(uint32_t baseAddress)
     delay--;
   }
 	
+}
+
+// Initialize the SPI interface
+bool initializeSPI( uint32_t base, uint8_t phase, uint8_t polarity)
+{
+  uint32_t delay;
+  SPI_PERIPH * myPeriph = (SPI_PERIPH *)base;
+
+  // Turn on the Clock Gating Register
+  switch (base) 
+  {
+    case SSI0 :
+    {
+				SYSCTL_RCGCSSI_R |= SYSCTL_RCGCSSI_R0;
+				break;
+    }
+    default:
+        return false;
+  }
+
+  delay = SYSCTL_RCGCSSI_R;
+
+  // Disable the SSI interface
+  myPeriph->SSICR1 = 0;
+
+  // Enable Master Mode
+  myPeriph->SSICR1 |= 0;
+
+  // Assume that we hvae a 80MHz clock and want a 4MHz SPI clock
+  // FSSIClk = FSysClk / (CPSDVSR * (1 + SCR))
+  myPeriph->SSICPSR = 20;
+  myPeriph->SSICR0  = 0;
+
+  // Clear the phse and polarity bits
+  myPeriph->SSICR0  &=  ~(SSI_CR0_SPH | SSI_CR0_SPO);
+
+  if (phase == 1)
+      myPeriph->SSICR0  = SSI_CR0_SPH;
+
+  if (polarity ==1)
+      myPeriph->SSICR0  |= SSI_CR0_SPO;
+
+  // Freescale SPI Mode with 8-Bit data (See line 2226 of lm4f120h5qr.h)
+  myPeriph->SSICR0  |= SSI_CR0_FRF_MOTO | SSI_CR0_DSS_8;
+
+  //Enable SSI
+  myPeriph->SSICR1 |= SSI_CR1_SSE;
+	
+  return true;
 }
 
 //Initialize the ADC
@@ -369,6 +419,7 @@ main(void)
 								0x0,
 								0x0,
 								0x0,
+								0x0,
 								0x0
 								);
 	gpioPortInit(
@@ -376,6 +427,7 @@ main(void)
 								(SW6 | PIN_4),
 								(SW6),
 								(SW6),
+								0x0,
 								0x0,
 								0x0
 								);
@@ -385,15 +437,18 @@ main(void)
 								(SW4 | SW5 | PIN_6),
 								(SW4 | SW5),
 								(PIN_6 | PIN_7),
+								0x0,
 								0x0
 								);
 	gpioPortInit(
 								PORTA,
-								(SW2 | SW3),
-								(SW2 | SW3),
+								(SW2 | SW3 | PIN_2 | PIN_3 | PIN_4 | PIN_5),
+								(SW2 | SW3 | PIN_2 | PIN_3 | PIN_4 | PIN_5),
 								(SW2 | SW3),
 								0x0,
-								0x0
+								0x0,
+								(GPIO_PCTL_PA5_SSI0TX | GPIO_PCTL_PA4_SSI0RX |
+														GPIO_PCTL_PA3_SSI0FSS | GPIO_PCTL_PA2_SSI0CLK)
 								);
 	gpioPortInit(
 								PORTE,
@@ -401,7 +456,8 @@ main(void)
 								(PIN_2 | PIN_3 | PIN_4),
 								0x0,
 								(PIN_2 | PIN_3 | PIN_4 | PIN_5),
-								(PIN_2 | PIN_3)
+								(PIN_2 | PIN_3),
+								0x0
 								);
 	//Set up the SysTick Timer
 	initializeSysTick(800000, true);

@@ -123,9 +123,9 @@ void UART_Init(uint32_t baseAddress)
 	}
 	delay = SYSCTL_RCGCUART_R;
 	
-  // Set the baud rate - in the notes!
-  myUart->IntegerBaudRateDiv = 520;           
-  myUart->FracBaudRateDiv = 53;              
+  // Set the baud rate to 115200
+  myUart->IntegerBaudRateDiv = 43;           
+  myUart->FracBaudRateDiv = 26;              
 
   // Configure the Line Control for 8-n-1
   myUart->LineControl = UART_LCRH_WLEN_8 | UART_LCRH_FEN;                  
@@ -245,7 +245,6 @@ uint32_t GetADCval(uint32_t Channel)
 //Here we handle the switch stuff.
 void sw2func(void)
 {
-
 }
 
 void sw3func(void)
@@ -474,7 +473,6 @@ main(void)
 	//main loop
 	while(1)
 	{
-		
 	}
   
 }

@@ -9,7 +9,7 @@
 #include "board_config.h"
 #include "team.h"
 #include "UART.h"
-
+#include "SPI.h"
 
 /******************************************************************************
  * Defines
@@ -20,7 +20,6 @@
 #define PORTD                 0x40007000
 #define PORTE                 0x40024000
 #define PORTF                 0x40025000
-
 
 #define RED				PIN_4
 #define GREEN			PIN_5
@@ -56,12 +55,12 @@ extern volatile bool SysTickAlert;
 //*****************************************************************************
 bool  gpioPortInit( 
                     uint32_t baseAddress, 
-                    uint8_t digitalEnableMask, 
-                    uint8_t inputMask, 
-                    uint8_t pullUpMask,
-										uint8_t altFuncMask,
-										uint8_t analogFuncMask,
-										uint8_t portControl
+                    uint32_t digitalEnableMask, 
+                    uint32_t inputMask, 
+                    uint32_t pullUpMask,
+										uint32_t altFuncMask,
+										uint32_t analogFuncMask,
+										uint32_t portControl
                   )
 {
 	GPIO_PORT * ourPort = (GPIO_PORT *)baseAddress;

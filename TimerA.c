@@ -21,5 +21,5 @@ void TimerAIntHandler(void)
  ****************************************************************************/
 void initializeTimerA(uint32_t count, bool enableInterrupts)
 {
-	
+	//SYSCTL_RCGCTIMER_R;
 }

@@ -410,6 +410,11 @@
               <FileType>1</FileType>
               <FilePath>F:\TimerA.c</FilePath>
             </File>
+            <File>
+              <FileName>Watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>F:\Watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

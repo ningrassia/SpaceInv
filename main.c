@@ -35,6 +35,7 @@ extern void EnableInterrupts(void);
 extern void DisableInterrupts(void);
 extern void initializeSysTick(uint32_t count, bool enableInterrupts);
 extern void initializeTimerA(uint32_t count, bool enableInterrupts);
+extern void watchdogInit(uint32_t mSec);
 
 extern volatile bool SysTickAlert;
 extern volatile bool TimerAAlert;

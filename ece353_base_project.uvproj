@@ -408,12 +408,12 @@
             <File>
               <FileName>TimerA.c</FileName>
               <FileType>1</FileType>
-              <FilePath>F:\TimerA.c</FilePath>
+              <FilePath>.\TimerA.c</FilePath>
             </File>
             <File>
               <FileName>Watchdog.c</FileName>
               <FileType>1</FileType>
-              <FilePath>F:\Watchdog.c</FilePath>
+              <FilePath>.\Watchdog.c</FilePath>
             </File>
           </Files>
         </Group>

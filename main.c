@@ -218,7 +218,7 @@ void initializeADC(void)
 	// Disable sequencer 3
 	ADC0_ACTSS_R &= ~ADC_ACTSS_ASEN3;
 	
-	// Set trigger events - sequencer 3 is on a software trigger
+	// Set trigger events - sequencer 3 is on a software trigger - maybe interrupt trigger???
 	ADC0_EMUX_R &= ~ADC_EMUX_EM3_M;
 	
 	// Set up sample control bits same settings as book example
@@ -470,6 +470,9 @@ main(void)
 	//Set up both UARTs
 	UART_Init(UART2);
 	UART_Init(UART5);
+	
+	//Enable Interrupts
+	EnableInterrupts();
 	
 	//main loop
 	while(1)

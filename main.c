@@ -21,13 +21,16 @@
 #define PORTE                 0x40024000
 #define PORTF                 0x40025000
 
-#define RED				PIN_4
-#define GREEN			PIN_5
-#define BLUE			PIN_6
+#define RED			            	PIN_4
+#define GREEN		            	PIN_5
+#define BLUE		            	PIN_6
 
-#define OUTPUT_ENABLE_B 	0xEF
-#define ROW_EN						PIN_7
-#define ENABLES_OFF				0x00
+#define OUTPUT_ENABLE_B 	    0xEF
+#define ROW_EN						    PIN_7
+#define ENABLES_OFF				    0x00
+
+#define PLAYER                0x0
+#define INVADERS              0x1
 
 extern void PLL_Init(void);
 extern void initPortC(void);
@@ -49,6 +52,8 @@ extern volatile bool TimerAAlert;
  GPIO_PORT *GpioPortD = (GPIO_PORT *)PORTD;
  GPIO_PORT *GpioPortE = (GPIO_PORT *)PORTE;
  GPIO_PORT *GpioPortF = (GPIO_PORT *)PORTF;
+ 
+ uint8_t playerMode;
  
  /******************************************************************************
  * Functions
@@ -461,10 +466,10 @@ main(void)
 								0x0
 								);
 								
-	//Set up the SysTick Timer
+	//Set up the SysTick Timer - 1ms
 	initializeSysTick(800000, true);
 	
-	//Set up TimerA - for debounce!
+	//Set up TimerA - for debounce! - 3ms
 	initializeTimerA(2400000, true);
 	
 	//Set up both UARTs
@@ -474,9 +479,12 @@ main(void)
 	//Enable Interrupts
 	EnableInterrupts();
 	
+	// Prompt for player type (player v invaders)
+	
 	//main loop
 	while(1)
 	{
+		
 	}
   
 }

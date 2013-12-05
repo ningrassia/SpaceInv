@@ -120,6 +120,9 @@ void UART_Init(uint32_t baseAddress)
 	//enable clock gating
 	switch(baseAddress)
 	{
+		case UART0:
+			SYSCTL_RCGCUART_R |= SYSCTL_RCGCUART_R0;
+			break;
 		case UART2:
 			SYSCTL_RCGCUART_R |= SYSCTL_RCGCUART_R2;
 			break;
@@ -142,6 +145,10 @@ void UART_Init(uint32_t baseAddress)
   // Wait until the UART is avaiable
 	switch(baseAddress)
 	{
+			case UART0:
+				while( !(SYSCTL_PRUART_R & SYSCTL_PRUART_R0 ))
+					{}
+				break;
 			case UART2:
 				while( !(SYSCTL_PRUART_R & SYSCTL_PRUART_R2 ))
 					{}
@@ -448,13 +455,14 @@ main(void)
 								);
 	gpioPortInit(
 								PORTA,
-								(SW2 | SW3 | PIN_2 | PIN_3 | PIN_4 | PIN_5),
-								(SW2 | SW3 | PIN_2 | PIN_3 | PIN_4 | PIN_5),
+								(PIN_0 | PIN_1 | PIN_2 | PIN_3 | PIN_4 | PIN_5 | SW2 | SW3 ),
+								(PIN_0 | PIN_1 | PIN_2 | PIN_3 | PIN_4 | PIN_5 | SW2 | SW3 ),
 								(SW2 | SW3),
+								(PIN_0 | PIN_1 | PIN_2 | PIN_3 | PIN_4 | PIN_5),
 								0x0,
-								0x0,
-								(GPIO_PCTL_PA5_SSI0TX | GPIO_PCTL_PA4_SSI0RX |
-														GPIO_PCTL_PA3_SSI0FSS | GPIO_PCTL_PA2_SSI0CLK)
+								(GPIO_PCTL_PA0_U0RX | GPIO_PCTL_PA1_U0TX 
+									| GPIO_PCTL_PA3_SSI0FSS | GPIO_PCTL_PA2_SSI0CLK
+									| GPIO_PCTL_PA5_SSI0TX | GPIO_PCTL_PA4_SSI0RX)
 								);
 	gpioPortInit(
 								PORTE,
@@ -472,9 +480,15 @@ main(void)
 	//Set up TimerA - for debounce! - 3ms
 	initializeTimerA(2400000, true);
 	
-	//Set up both UARTs
+	//Set up debug UART
+	UART_Init(UART0);
+	
+	//Set up both comm. UARTs
 	UART_Init(UART2);
 	UART_Init(UART5);
+	
+	//Initialize Watchdog
+	//watchdogInit(5);
 	
 	//Enable Interrupts
 	EnableInterrupts();

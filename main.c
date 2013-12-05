@@ -10,6 +10,7 @@
 #include "team.h"
 #include "UART.h"
 #include "SPI.h"
+#include "game.h"
 
 /******************************************************************************
  * Defines
@@ -132,7 +133,7 @@ void UART_Init(uint32_t baseAddress)
 	}
 	delay = SYSCTL_RCGCUART_R;
 	
-  // Set the baud rate to 115200
+  // Set the baud rate to 115200 (Maybe change this for UART0??????????????)
   myUart->IntegerBaudRateDiv = 43;           
   myUart->FracBaudRateDiv = 26;              
 

@@ -489,7 +489,7 @@ main(void)
 	UART_Init(UART5);
 	
 	//Initialize Watchdog
-	//watchdogInit(5);
+	watchdogInit(5);
 	
 	//Enable Interrupts
 	EnableInterrupts();

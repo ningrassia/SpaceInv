@@ -9,7 +9,7 @@ volatile bool TimerAAlert;
  /****************************************************************************
  * The TimerA Handler
  ****************************************************************************/
-void TimerAIntHandler(void)
+void TIMER0IntHandler(void)
 { 
 	// Acknowledge interrupt
 	TIMER0_ICR_R = 0x10;

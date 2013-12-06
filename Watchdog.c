@@ -8,7 +8,7 @@
  * Defines
  *****************************************************************************/
  #define WD0_EN          0x1
- #define TRIGGER_SYS_RST 0x2
+ #define ENABLE          0x3
 
 void watchdogInit(uint32_t mSec)
 {
@@ -19,5 +19,5 @@ void watchdogInit(uint32_t mSec)
 	WATCHDOG0_LOAD_R = mSec * 800000;
 	
 	// Enable watchdog trigger system restart
-	WATCHDOG0_CTL_R |= TRIGGER_SYS_RST;
+	WATCHDOG0_CTL_R |= ENABLE;
 }
